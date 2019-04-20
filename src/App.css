@@ -24,8 +24,9 @@ form > .title{
 
 .add-file{
   width:100%;
-  background-color:#e6e6e6;
-  padding:10px 10px 2px 10px;
+  background-color:#fff;
+  border:3px dotted #bdbdbd;
+  padding:20px 10px 2px 10px;
 }
 
 .add-file > i{
@@ -74,4 +75,56 @@ form > .title{
   font-size:10pt;
   text-align: center;
   margin-top:20px;
+}
+
+.chart{
+  margin-top:20px;
+}
+
+.product-col{
+  padding: 0px !important;
+}
+
+.product-container{
+  border:1px solid #dadada;
+  margin: 5px;
+}
+
+.product-name{
+  padding:10px;
+  font-size:11pt;
+}
+
+.product-image-container{
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height:150px;
+}
+
+.product-image{
+  -webkit-transition: 0.5s; /* Safari */
+  transition: 0.5s;
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.product-image:hover{
+  width: 150%;
+}
+
+.product-category{
+  font-size:10pt;
+  color:#696969;
+}
+
+.product-desc{
+  font-size:10pt;
+  color:#333232;
+  padding: 10px;
 }

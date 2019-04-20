@@ -58,36 +58,54 @@ class AddProduct extends React.Component{
         //init firebase
         const db = firebase.database().ref().child('products');
 
-        let product = {
-            name : this.state.productName,
-            category : this.state.productCategory,
-            description : this.state.productDescription,
-            createdOn : Date.now(),
-            updatedOn : ''
+        //image list
+        let images = [];
+        if(Object.keys(this.state.image1).length > 0){
+            images.push(this.state.image1.url);
+        }
+        if(Object.keys(this.state.image2).length > 0){
+            images.push(this.state.image2.url);
+        }
+        if(Object.keys(this.state.image3).length > 0){
+            images.push(this.state.image3.url);
         }
 
-        console.log(product);
-
-        //save to firebase
-        try{
-            db.push().set(product, (err) => {
-                if(err){
-                    //error
-                    this.setState({ isSuccess : false });
-                    this.setState({ errorMessage : err.message });
-                }else{
-                    //success
-                    this.setState({ isSuccess : true });
-                    this.setState({ errorMessage : '' });
-                }
+        //validate image
+        if(images.length < 1){
+            this.setState({ errorMessage : 'Please choose at least 1 image' });
+        }else{
+            let product = {
+                name : this.state.productName,
+                category : this.state.productCategory,
+                description : this.state.productDescription,
+                createdOn : Date.now(),
+                updatedOn : '',
+                images : images
+            }
     
-                //enable submit button
-                this.setState({ isSubmitting : false });
-            });
-        }catch(err){
-            //error
-            this.setState({ isSuccess : false });
-            this.setState({ errorMessage : err.message });
+            console.log(product);
+    
+            //save to firebase
+            try{
+                db.push().set(product, (err) => {
+                    if(err){
+                        //error
+                        this.setState({ isSuccess : false });
+                        this.setState({ errorMessage : err.message });
+                    }else{
+                        //success
+                        this.setState({ isSuccess : true });
+                        this.setState({ errorMessage : '' });
+                    }
+        
+                    //enable submit button
+                    this.setState({ isSubmitting : false });
+                });
+            }catch(err){
+                //error
+                this.setState({ isSuccess : false });
+                this.setState({ errorMessage : err.message });
+            }
         }
     }
 
