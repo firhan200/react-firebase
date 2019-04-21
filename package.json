@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "chart.js": "^2.8.0",
     "firebase": "^5.10.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.0",
     "popper.js": "^1.15.0",
     "react": "^16.8.6",
+    "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.3",
     "react-router-dom": "^5.0.0",

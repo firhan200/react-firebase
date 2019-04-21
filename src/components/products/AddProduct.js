@@ -303,7 +303,6 @@ class AddProduct extends React.Component{
                             <ImagePreview image={this.state.image1}/>
                             <ImagePreview image={this.state.image2}/>
                             <ImagePreview image={this.state.image3}/>
-                            {/* {this.state.images.map(image => <ImagePreview image={image}/> )} */}
                         </div>
                     </div>
                 </div>

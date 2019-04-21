@@ -81,13 +81,9 @@ form > .title{
   margin-top:20px;
 }
 
-.product-col{
-  padding: 0px !important;
-}
-
 .product-container{
   border:1px solid #dadada;
-  margin: 5px;
+  margin-bottom: 10px;
 }
 
 .product-name{
@@ -161,4 +157,8 @@ form > .title{
 
 .display-image-container{
   margin-bottom: 20px;
+}
+
+.search-product-container{
+  margin-bottom:20px;
 }

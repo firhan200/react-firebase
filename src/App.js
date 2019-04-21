@@ -18,8 +18,8 @@ class App extends Component {
         <Header/>
         <div className="container main-content">    
           <Route path="/" exact component={ListProduct}/>
-          <Route path="/product/add" component={AddProduct}/>
-          <Route path="/product/:key" component={DetailProduct}/>
+          <Route path="/product/add" exact component={AddProduct}/>
+          <Route path="/product/detail/:key" exact component={DetailProduct}/>
         </div>
         <Footer/>
       </Router>
