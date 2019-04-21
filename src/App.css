@@ -93,6 +93,11 @@ form > .title{
 .product-name{
   padding:10px;
   font-size:11pt;
+  color:#1c1c1c;
+}
+
+.product-link:hover{
+  text-decoration: none;
 }
 
 .product-image-container{
@@ -127,4 +132,33 @@ form > .title{
   font-size:10pt;
   color:#333232;
   padding: 10px;
+}
+
+.detail-image-preview{
+  position: absolute;
+  max-width:68px;
+  max-height: 68px;
+  top:0;
+  bottom: 0;
+  margin: auto;
+}
+
+.detail-image-container{
+  position: relative;
+  width:70px;
+  height:70px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color:#fff;
+  border: 1px solid #bdbdbd;
+  float: left;
+  margin-right: 10px;
+}
+
+.detail-image-main{
+  width:100%;
+}
+
+.display-image-container{
+  margin-bottom: 20px;
 }

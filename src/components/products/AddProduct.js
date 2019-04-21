@@ -165,6 +165,8 @@ class AddProduct extends React.Component{
                     //error
                     this.setState({errorMessage : 'maximun image size: 1MB, allowed type: jpeg|png'});
                 }
+
+                return true;
             })
         }else{
             //error
@@ -221,6 +223,8 @@ class AddProduct extends React.Component{
                 break;
                 case firebase.storage.TaskState.RUNNING: // or 'running'
                 break;
+                default:
+                break;
             }
         }, (err) => {
             // Handle unsuccessful uploads
@@ -242,11 +246,11 @@ class AddProduct extends React.Component{
     }
 
     updateImage(onImage, imageObj){
-        if(onImage==1){
+        if(onImage===1){
             this.setState({ image1 :  imageObj });
-        }else if(onImage==2){
+        }else if(onImage===2){
             this.setState({ image2 :  imageObj });
-        }else if(onImage==3){
+        }else if(onImage===3){
             this.setState({ image3 :  imageObj });
         }
     }
@@ -328,7 +332,7 @@ function ImagePreview(props){
             //show image preview
             return(
                 <div key={props.image.key} className="image-container">
-                    <img className="image-preview" src={props.image.url}></img>
+                    <img alt={props.image.name} className="image-preview" src={props.image.url}></img>
                 </div>
             );
         }

@@ -21,6 +21,7 @@ class ListProduct extends React.Component{
                 //push to array
                 let product = childSnapshot.val();
                 products.push({
+                    key: childSnapshot.key,
                     name: product.name,
                     images: product.images,
                     category: product.category,
@@ -61,22 +62,26 @@ function RenderProducts(props){
     props.products.map(product => {
         result.push(
             <div className="col-sm-6 col-md-4 col-lg-3 product-col">
-                <div className="product-container">
-                    <div className="product-name">
-                        {product.name}
-                        <div className="product-category">
-                            {product.category}
+                <Link to={'/product/'+product.key} className="product-link">
+                    <div className="product-container">
+                        <div className="product-name">
+                            {product.name}
+                            <div className="product-category">
+                                {product.category}
+                            </div>
+                        </div>
+                        <div className="product-image-container">
+                            <img alt={product.name} className="product-image" src={product.images[0]}></img>
+                        </div>
+                        <div className="product-desc">
+                            { product.description.length > 50 ? product.description.slice(0, 50)+"..." : product.description }
                         </div>
                     </div>
-                    <div className="product-image-container">
-                        <img className="product-image" src={product.images[0]}></img>
-                    </div>
-                    <div className="product-desc">
-                        { product.description.length > 50 ? product.description.slice(0, 50)+"..." : product.description }
-                    </div>
-                </div>
+                </Link>
             </div>
         );
+
+        return true;
     })
     return(<div className="row">{result}</div>);
 }

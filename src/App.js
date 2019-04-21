@@ -7,22 +7,22 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 import AddProduct from './components/products/AddProduct';
+import DetailProduct from './components/products/DetailProduct';
 import ListProduct from './components/products/ListProduct';
 /* Components */
 
 class App extends Component {
   render() {
     return (
-      <div>
+      <Router>
         <Header/>
-        <div className="container main-content">
-          <Router>
-            <Route path="/" exact component={ListProduct}/>
-            <Route path="/product/add" component={AddProduct}/>
-          </Router>
+        <div className="container main-content">    
+          <Route path="/" exact component={ListProduct}/>
+          <Route path="/product/add" component={AddProduct}/>
+          <Route path="/product/:key" component={DetailProduct}/>
         </div>
         <Footer/>
-      </div>
+      </Router>
     );
   }
 }
