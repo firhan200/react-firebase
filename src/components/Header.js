@@ -7,7 +7,7 @@ import NavMenu from './NavMenu';
 class Header extends React.Component{
     render(){
         return(
-            <nav className="navbar navbar-dark bg-primary navbar-expand-md">
+            <nav className="navbar fixed-top navbar-dark bg-primary navbar-expand-md">
                 <Link className="navbar-brand" to="/"><i className="fa fa-bolt"></i></Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>

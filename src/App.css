@@ -4,7 +4,7 @@
 }
 
 .main-content{
-  margin-top:50px;
+  margin-top:100px;
   margin-bottom:50px;
 }
 
@@ -189,4 +189,17 @@ form > .title{
 .btn-facebook:hover{
   background-color:rgb(45, 67, 116);
   color:#f2f2f2;
+}
+
+.cart-icon{
+  padding: 5px;
+  color:#f8f8f8;
+  background-color: #004b9b;
+  font-size:11pt;
+}
+
+.cart-icon:hover , .cart-icon:focus{
+  content: attr("add to cart");
+  color:#fff;
+  background-color: #00346b;
 }

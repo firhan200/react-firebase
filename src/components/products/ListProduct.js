@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import firebase from 'firebase';
 import ChartProduct from './ChartProduct';
+import ProductPreview from './ProductPreview';
 import { connect } from 'react-redux';
 
 class ListProduct extends React.Component{
@@ -61,6 +62,21 @@ class ListProduct extends React.Component{
     }
 
     render(){
+        function RenderProducts(props){
+            let result = [];
+        
+            props.products.filter((product) => {
+                return product.name.toLowerCase().includes(props.keyword.toLowerCase());
+            }).map(product => {
+                result.push(
+                    <ProductPreview key={product.key} product={product} />
+                );
+        
+                return true;
+            })
+            return(<div className="row">{result}</div>);
+        }
+
         return(
             <div className="row">
                 <div className="col-sm-12 col-md-4 col-lg-3">
@@ -86,38 +102,6 @@ class ListProduct extends React.Component{
     }
 }
 
-function RenderProducts(props){
-    let result = [];
-
-    props.products.filter((product) => {
-        return product.name.toLowerCase().includes(props.keyword.toLowerCase());
-    }).map(product => {
-        result.push(
-            <div key={product.key} className="col-sm-6 col-md-4 col-lg-3">
-                <Link to={'/product/detail/'+product.key} className="product-link">
-                    <div className="product-container">
-                        <div className="product-name">
-                            {product.name}
-                            <div className="product-category">
-                                {product.category}
-                            </div>
-                        </div>
-                        <div className="product-image-container">
-                            <img alt={product.name} className="product-image" src={product.images[0]}></img>
-                        </div>
-                        <div className="product-desc">
-                            { product.description.length > 50 ? product.description.slice(0, 50)+"..." : product.description }
-                        </div>
-                    </div>
-                </Link>
-            </div>
-        );
-
-        return true;
-    })
-    return(<div className="row">{result}</div>);
-}
-
 function NoResult(props){
     if(props.isLoading){
         return(
@@ -134,4 +118,5 @@ const mapStateToProps = state => ({
     isAuthenticated : state.authReducer.isAuthenticated
 })
 
-export default connect(mapStateToProps, {})(ListProduct);
+export default connect(mapStateToProps, {
+})(ListProduct);

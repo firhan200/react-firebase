@@ -37,7 +37,6 @@ export const logout = (callBack) => dispatch => {
 export const isAuthenticated = () => {
     let isLocalStorageContainUser = false;
     let user = localStorage.getItem(USER_KEY);
-    console.log(user);
     if(user!==null){
         //un authenticated
         isLocalStorageContainUser = true;

@@ -4,7 +4,7 @@ class LoginForm extends Component{
     render(){
         return(
             <div>
-                <form>
+                {/* <form>
                     <div className="form-group">
                         <label>E-mail</label>
                         <input type="email" className="form-control" placeholder="input email"/>
@@ -16,7 +16,7 @@ class LoginForm extends Component{
                     <div className="form-group">
                         <button type="submit" className="btn full btn-sm btn-primary">Login</button>
                     </div>
-                </form>
+                </form> */}
             </div>
         );
     }

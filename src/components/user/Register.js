@@ -55,12 +55,17 @@ class Register extends Component{
 
     render(){
         return(
-            <div className="row">
-                <div className="col-md-6">
-                    <button type="button" className="btn full btn-sm btn-google" onClick={this.loginWithGoogle}>Login with Google</button>
-                </div>
-                <div className="col-md-6">
-                    <button type="button" className="btn full btn-sm btn-facebook" onClick={this.loginWithFacebook}>Login with Facebook</button>
+            <div>
+                <div className="row">
+                    <div className="col-md-12" align="center">
+                        <h3>Join our <b>Marketplace</b>!</h3>
+                        <hr/>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                        <button type="button" className="btn full btn-md btn-google" onClick={this.loginWithGoogle}><i className="fa fa-google"/> Login with Google</button>
+                        <br/>
+                        <br/>
+                        <button type="button" className="btn full btn-md btn-facebook" onClick={this.loginWithFacebook}><i className="fa fa-facebook"/> Login with Facebook</button>
+                    </div>
                 </div>
             </div>
         );
