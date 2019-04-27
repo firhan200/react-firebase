@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import firebase from 'firebase';
 import ChartProduct from './ChartProduct';
+import { connect } from 'react-redux';
 
 class ListProduct extends React.Component{
 
@@ -63,7 +64,9 @@ class ListProduct extends React.Component{
         return(
             <div className="row">
                 <div className="col-sm-12 col-md-4 col-lg-3">
-                    <Link to="/product/add" className="btn btn-sm btn-primary"><i className="fa fa-plus-circle"></i> Add Product</Link>
+                    { this.props.isAuthenticated ? (
+                        <Link to="/product/add" className="btn btn-sm btn-primary"><i className="fa fa-plus-circle"></i> Add Product</Link>
+                    ) : '' }
                     <div className="chart">
                         <ChartProduct products={this.state.products}/>
                     </div>
@@ -87,7 +90,7 @@ function RenderProducts(props){
     let result = [];
 
     props.products.filter((product) => {
-        return product.name.includes(props.keyword);
+        return product.name.toLowerCase().includes(props.keyword.toLowerCase());
     }).map(product => {
         result.push(
             <div key={product.key} className="col-sm-6 col-md-4 col-lg-3">
@@ -127,4 +130,8 @@ function NoResult(props){
     }
 }
 
-export default ListProduct;
+const mapStateToProps = state => ({
+    isAuthenticated : state.authReducer.isAuthenticated
+})
+
+export default connect(mapStateToProps, {})(ListProduct);

@@ -34,7 +34,6 @@ class ChartProduct extends React.Component{
     componentDidUpdate(prevProps){
         //render chart
         if(prevProps.products !== this.props.products){
-            console.log('something changed');
             //update if something changed
             //fahsion
             data.datasets[0].data[0] = this.props.products.filter((product) => {

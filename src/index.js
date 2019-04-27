@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import firebase from 'firebase';
+import store from './redux/store';
+import { Provider } from 'react-redux';
 
 /* Plugin */
 import 'font-awesome/css/font-awesome.min.css';
@@ -25,7 +27,12 @@ var config = {
 firebase.initializeApp(config);
 /* Firebase */
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+  , document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
