@@ -49,16 +49,34 @@ export const addToCart = (product, callBack) => dispatch => {
     }
 }
 
-export const removeFromCart = itemId => {
+export const removeFromCart = item => {
+    let isRemoved = false;
+    let itemId = item.key;
     let cart = JSON.parse(localStorage.getItem(CART_KEY));
+
     if(cart!==null){
+        console.log(itemId);
         //cart exist
         //find itemId
-        let newCart = cart.items.filter(item => {
-            return item!==itemId;
+        let newCartItems = cart.items.filter(item => {
+            return item.id!==itemId;
         });
 
-        localStorage.setItem(newCart);
+        if(newCartItems.length!==cart.items.length){
+            //something removed
+            isRemoved = true;
+        }
+
+        cart = { items: newCartItems }
+
+        localStorage.setItem(CART_KEY , JSON.stringify(cart));
+    }
+
+    if(isRemoved){
+        //show toast
+        toast.error(item.name+" removed from cart!", {
+            position: toast.POSITION.BOTTOM_RIGHT
+        });
     }
 
     return {

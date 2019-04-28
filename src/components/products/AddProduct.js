@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
-
+import CurrencyFormat from 'react-currency-format';
 import firebase from 'firebase';
 
 class AddProduct extends React.Component{
@@ -14,6 +14,7 @@ class AddProduct extends React.Component{
             productName : "",
             productCategory : "",
             productDescription : "",
+            productPrice : 0,
             createdOn : "",
             updatedOn : "",
             categories : [
@@ -47,9 +48,7 @@ class AddProduct extends React.Component{
             imageLeft : 3
         }
 
-        this.handleProductNameChange = this.handleProductNameChange.bind(this);
-        this.handleProductDescriptionChange = this.handleProductDescriptionChange.bind(this);
-        this.handleProductCategoryChange = this.handleProductCategoryChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onDrop = this.onDrop.bind(this);
     }
@@ -78,6 +77,7 @@ class AddProduct extends React.Component{
                 name : this.state.productName,
                 category : this.state.productCategory,
                 description : this.state.productDescription,
+                price : this.state.productPrice,
                 createdOn : Date.now(),
                 updatedOn : '',
                 images : images
@@ -114,27 +114,27 @@ class AddProduct extends React.Component{
         this.setState({productName : ''});
         this.setState({productDescription : ''});
         this.setState({productCategory : ''});
+        this.setState({productPrice : 0});
     }
 
-    handleProductNameChange(e){
-        this.setState({productName : e.target.value });
-    }
-
-    handleProductDescriptionChange(e){
-        this.setState({productDescription : e.target.value });
-    }
-
-    handleProductCategoryChange(e){
-        console.log(e.target.value);
-        this.setState({productCategory : e.target.value});
+    handleInputChange(e){
+        this.setState({ [e.target.name] : e.target.value });
     }
 
     handleSubmit(e){
-        //disable submit button
-        this.setState({ isSubmitting : true });
+        let isValid = false;
+        //validating
+        if(this.state.productPrice > 0){
+            isValid = true;
+        }
 
-        //save to firebase
-        this.saveProduct();
+        if(isValid){
+            //disable submit button
+            this.setState({ isSubmitting : true });
+
+            //save to firebase
+            this.saveProduct();
+        }
 
         e.preventDefault();
     }
@@ -264,11 +264,11 @@ class AddProduct extends React.Component{
                     <div className="col-sm-12 col-md-8 col-lg-6">
                         <div className="form-group">
                             <label>Product Name *</label>
-                            <input type="text" className="form-control" value={this.state.productName} onChange={this.handleProductNameChange} required/>
+                            <input type="text" name="productName" className="form-control" value={this.state.productName} onChange={this.handleInputChange} required/>
                         </div>
                         <div className="form-group">
                             <label>Product Category *</label>
-                            <select className="form-control" onChange={this.handleProductCategoryChange} required>
+                            <select className="form-control" name="productCategory" onChange={this.handleInputChange} required>
                                 {this.state.categories.map((category) => 
                                     <option key={category.key} value={category.value}>{category.display}</option>
                                 )}
@@ -276,8 +276,17 @@ class AddProduct extends React.Component{
                         </div>
                         <div className="form-group">
                             <label>Product Description *</label>
-                            <textarea className="form-control" maxLength="1000" value={this.state.productDescription} onChange={this.handleProductDescriptionChange}/>
+                            <textarea className="form-control" name="productDescription" maxLength="1000" value={this.state.productDescription} onChange={this.handleInputChange}/>
                             <div className="help">maximum character 1000</div>
+                        </div>
+                        <div className="form-group">
+                            <label>Product Price *</label>
+                            <CurrencyFormat value={this.state.productPrice} className="form-control" thousandSeparator={true} prefix={'Rp. '} onValueChange={(values) => {
+                                const {formattedValue, value} = values;
+                                // formattedValue = $2,223
+                                // value ie, 2223
+                                this.setState({ productPrice : value })
+                            }}/>
                         </div>
                     </div>
                     <div className="col-sm-12 col-md-4 col-lg-6">

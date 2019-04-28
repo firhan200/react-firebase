@@ -12,10 +12,12 @@ class NavMenu extends React.Component{
     }
 
     render(){
+        console.log(this.props.cart);
+
         const cartDisplay = 
                 <li className="nav-item active">
                     <Link to="/cart" className="nav-link"><i className="fa fa-shopping-cart"></i>&nbsp;
-                    <span className="badge badge-light">{ this.props.cart.length }</span>
+                    <span className="badge badge-light">{ (typeof this.props.cart)!=="undefined" ? this.props.cart.length : "0" }</span>
                     </Link>
                 </li>
 

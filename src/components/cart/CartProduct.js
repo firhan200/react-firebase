@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import CurrencyFormat from 'react-currency-format';
+import { removeFromCart } from '../../redux/actions/cartActions';
+import { connect } from 'react-redux';
 
 class CartProduct extends Component{
     constructor(){
         super();
         this.state = {
-            quantity: 0,
+            quantity: 1, /* default minimun qty 1 */
+            viewAllDescription: false,
             total: 0
         };
+
+        this.removeItemFromCart = this.removeItemFromCart.bind(this);
+    }
+
+    componentDidMount(){
+        this.setState({ total: this.props.product.price });
     }
 
     increaseQuantity = () => {
@@ -17,7 +26,7 @@ class CartProduct extends Component{
     }
 
     decreaseQuantity = () => {
-        if(this.state.quantity > 0){
+        if(this.state.quantity > 1){
             this.setState({ quantity: (this.state.quantity-1) }, () => {
                 this.setTotalPrice();
             });
@@ -25,9 +34,17 @@ class CartProduct extends Component{
     }
 
     setTotalPrice(){
-        let price = 75000;
+        let price = this.props.product.price;
         let total = this.state.quantity * price;
         this.setState({ total: total });
+    }
+
+    removeItemFromCart(){
+        this.props.removeFromCart(this.props.product);
+    }
+
+    viewMoreDescription(){
+
     }
 
     render(){
@@ -39,6 +56,35 @@ class CartProduct extends Component{
             </a>
             ) 
             : "no image";
+
+        const maxLength = 50;
+        const RenderDescription = 
+        this.state.viewAllDescription ? 
+        (
+            <div>
+                {product.description}
+                <br/>
+                <a href="#!" onClick={() => {
+                    this.setState({ viewAllDescription: !this.state.viewAllDescription })
+                }}>view less</a>
+            </div>
+        ) :
+        product.description.length > maxLength ?
+            (
+                <div>
+                    {product.description.slice(0, 50)}
+                    ...
+                    <br/>
+                    <a href="#!" onClick={() => {
+                        this.setState({ viewAllDescription: !this.state.viewAllDescription })
+                    }}>view more</a>
+                </div>
+            )
+            : (
+                <div>
+                    {product.description}
+                </div>
+            );
 
         return(
             <div>
@@ -53,7 +99,7 @@ class CartProduct extends Component{
                         <label className="badge badge-primary">{ product.category }</label>
                     </div>
                     <div className="col-md-3 col-lg-3">
-                        { product.description }
+                        { RenderDescription }
                     </div>
                     <div className="col-md-3 col-lg-3">
                         <table className="table table-borderless">
@@ -70,7 +116,7 @@ class CartProduct extends Component{
                         <b>Total:</b><br/>
                         <CurrencyFormat value={ this.state.total } displayType={'text'} thousandSeparator={true} prefix={'Rp. '}/>
                         <br/>
-                        <a href="#!">Remove from cart</a>
+                        <a href="#!" onClick={ this.removeItemFromCart }>Remove from cart</a>
                     </div>
                 </div>
                 <hr/>
@@ -79,4 +125,6 @@ class CartProduct extends Component{
     }
 }
 
-export default CartProduct;
+export default connect(null, {
+    removeFromCart
+})(CartProduct);

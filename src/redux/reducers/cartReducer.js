@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
                 {},
                 state,
                 {
-                    items : Object.assign([], state.items).filter(itemId => { return itemId!==action.payload }),
+                    items : Object.assign([], state.items).filter(item => { return item.id!==action.payload }),
                     lastInsertedItem: {}
                 }
             );

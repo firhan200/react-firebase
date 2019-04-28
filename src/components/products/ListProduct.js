@@ -30,14 +30,8 @@ class ListProduct extends React.Component{
             //looping all data
             snapshot.forEach(childSnapshot => {
                 //push to array
-                let product = childSnapshot.val();
-                products.push({
-                    key: childSnapshot.key,
-                    name: product.name,
-                    images: product.images,
-                    category: product.category,
-                    description : product.description
-                })
+                let product = Object.assign({}, childSnapshot.val(), { key : childSnapshot.key });
+                products.push(product);
             })
             //set to state
             this.setState({ products : products.reverse() });

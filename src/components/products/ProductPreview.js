@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../../redux/actions/cartActions';
 import { connect } from 'react-redux';
+import CurrencyFormat from 'react-currency-format';
 
 class ProductPreview extends Component{
     addToCart = (product) => {
@@ -27,9 +28,18 @@ class ProductPreview extends Component{
                         </div>
                     </Link>
                     <div className="product-actions">
-                        <a href="#!" className="cart-icon" onClick={() => {
-                            this.addToCart(this.props.product);
-                        }}><i className="fa fa-cart-plus"/></a>
+                        <div className="row">
+                            <div className="col-sm-3">
+                            <a href="#!" className="cart-icon" onClick={() => {
+                                    this.addToCart(this.props.product);
+                                }}><i className="fa fa-cart-plus"/></a>
+                            </div>
+                            <div className="col-sm-9">
+                                <div className="product-price">
+                                    <CurrencyFormat value={ this.props.product.price } displayType={'text'} thousandSeparator={true} prefix={'Rp. '}/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

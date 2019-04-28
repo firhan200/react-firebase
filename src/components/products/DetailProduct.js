@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase';
+import CurrencyFormat from 'react-currency-format';
 
 class DetailProduct extends React.Component{
     constructor(props){
@@ -11,6 +12,7 @@ class DetailProduct extends React.Component{
             productName : "",
             productCategory : "",
             productDescription : "",
+            productPrice: 0,
             createdOn : "",
             updatedOn : "",
             images: [],
@@ -63,6 +65,7 @@ class DetailProduct extends React.Component{
             productDescription: product.description,
             productCategory: product.category,
             images : product.images,
+            productPrice : product.price,
             currentDisplayImage: defaultImageUrl
         });
     }
@@ -89,7 +92,12 @@ class DetailProduct extends React.Component{
                                 </td>
                             </tr>
                             <tr>
-                                <td>{this.state.productDescription}</td>
+                                <td>
+                                    {this.state.productDescription}
+                                    <div className="product-detail-price">
+                                        <CurrencyFormat value={ this.state.productPrice } displayType={'text'} thousandSeparator={true} prefix={'Rp. '}/>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

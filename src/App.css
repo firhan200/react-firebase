@@ -124,6 +124,18 @@ form > .title{
   color:#696969;
 }
 
+.product-price{
+  text-align:right;
+  font-size:12pt;
+  padding-right:10px;
+}
+
+.product-detail-price{
+  font-size:14pt;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
 .product-desc{
   font-size:10pt;
   color:#333232;
