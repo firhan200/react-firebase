@@ -14,9 +14,9 @@ class NavMenu extends React.Component{
     render(){
         const cartDisplay = 
                 <li className="nav-item active">
-                    <a href="#!" className="nav-link"><i className="fa fa-shopping-cart"></i>&nbsp;
+                    <Link to="/cart" className="nav-link"><i className="fa fa-shopping-cart"></i>&nbsp;
                     <span className="badge badge-light">{ this.props.cart.length }</span>
-                    </a>
+                    </Link>
                 </li>
 
         return(

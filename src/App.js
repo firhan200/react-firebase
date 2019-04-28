@@ -14,7 +14,7 @@ import DetailProduct from './components/products/DetailProduct';
 import ListProduct from './components/products/ListProduct';
 
 import Login from './components/user/Login';
-import LogoutModal from './components/user/LogoutModal';
+import CartDetail from './components/cart/CartDetail';
 /* Components */
 
 // Call it once in your app. At the root of your app is the best place
@@ -42,14 +42,18 @@ class App extends Component {
       <Router>
         <Route path="/" component={Header}/>
         <div className="container main-content">    
+          {/* Landing Page */}
           <Route path="/" exact component={ListProduct}/>
 
+          {/* Auth Page */}
           <UnauthorizedRoute path="/login" component={Login}/>
 
+          {/* Product Page */}
           <PrivateRoute path="/product/add" exact component={AddProduct}/>
           <Route path="/product/detail/:key" exact component={DetailProduct}/>
 
-          <LogoutModal />
+          {/* Cart Page */}
+          <Route path="/cart" component={CartDetail}/>
         </div>
         <Footer/>
       </Router>
