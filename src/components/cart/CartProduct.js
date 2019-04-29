@@ -1,50 +1,49 @@
 import React, { Component } from 'react';
 import CurrencyFormat from 'react-currency-format';
-import { removeFromCart } from '../../redux/actions/cartActions';
+import { removeFromCart, updateCartItem } from '../../redux/actions/cartActions';
 import { connect } from 'react-redux';
 
 class CartProduct extends Component{
     constructor(){
         super();
         this.state = {
-            quantity: 1, /* default minimun qty 1 */
-            viewAllDescription: false,
-            total: 0
+            viewAllDescription: false
         };
 
         this.removeItemFromCart = this.removeItemFromCart.bind(this);
     }
 
-    componentDidMount(){
-        this.setState({ total: this.props.product.price });
-    }
-
     increaseQuantity = () => {
-        this.setState({ quantity: (this.state.quantity+1) }, () => {
-            this.setTotalPrice();
-        });
+        let newProductState = {
+            id: this.props.product.key,
+            quantity: (this.props.product.quantity + 1),
+            total: this.setTotalPrice(this.props.product.quantity + 1)
+        }
+        //update
+        this.props.updateCartItem(newProductState);
     }
 
     decreaseQuantity = () => {
         if(this.state.quantity > 1){
-            this.setState({ quantity: (this.state.quantity-1) }, () => {
-                this.setTotalPrice();
-            });
+            let newProductState = {
+                id: this.props.product.key,
+                quantity: (this.props.product.quantity - 1),
+                total: this.setTotalPrice(this.props.product.quantity - 1)
+            }
+    
+            //update
+            this.props.updateCartItem(newProductState);
         }
     }
 
-    setTotalPrice(){
+    setTotalPrice(quantity){
         let price = this.props.product.price;
-        let total = this.state.quantity * price;
-        this.setState({ total: total });
+        let total = quantity * price;
+        return total;
     }
 
     removeItemFromCart(){
         this.props.removeFromCart(this.props.product);
-    }
-
-    viewMoreDescription(){
-
     }
 
     render(){
@@ -106,7 +105,7 @@ class CartProduct extends Component{
                             <tbody>
                                 <tr>
                                     <td width="33%" align="center"><a href="#!" onClick={ this.decreaseQuantity } className="btn btn-danger"><i className="fa fa-minus"/></a></td>
-                                    <td width="33%"><div align="center">Quantity:<br/>{ this.state.quantity }</div></td>
+                                    <td width="33%"><div align="center">Quantity:<br/>{ product.quantity }</div></td>
                                     <td width="33%" align="center"><a href="#!" onClick={ this.increaseQuantity } className="btn btn-primary"><i className="fa fa-plus"/></a></td>
                                 </tr>
                             </tbody>
@@ -114,7 +113,7 @@ class CartProduct extends Component{
                     </div>
                     <div className="col-md-2 col-lg-2" align="right">
                         <b>Total:</b><br/>
-                        <CurrencyFormat value={ this.state.total } displayType={'text'} thousandSeparator={true} prefix={'Rp. '}/>
+                        <CurrencyFormat value={ product.total } displayType={'text'} thousandSeparator={true} prefix={'Rp. '}/>
                         <br/>
                         <a href="#!" onClick={ this.removeItemFromCart }>Remove from cart</a>
                     </div>
@@ -126,5 +125,6 @@ class CartProduct extends Component{
 }
 
 export default connect(null, {
-    removeFromCart
+    removeFromCart,
+    updateCartItem
 })(CartProduct);

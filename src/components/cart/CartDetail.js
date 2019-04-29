@@ -19,7 +19,7 @@ class CartDetail extends Component{
 
     componentWillReceiveProps(newProps){
         //update state if props changed
-        if(this.props.cart.items.length!==newProps.cart.items.length){
+        if(this.props.cart.items!==newProps.cart.items){
             //update
             this.setProductsDetail(newProps.cart.items);
         }
@@ -47,12 +47,18 @@ class CartDetail extends Component{
         Promise.all(promises).then((snapshots) => {
             snapshots.forEach((snapshot) => {
                 let product = snapshot.val();
-                //add key to product
-                let productWithKey = Object.assign({}, product, {
-                    key: snapshot.key
-                });
-                //push product to list of product
-                productList.push(productWithKey);
+
+                let cartItemLocalStorage = cartItems.find(item => { return item.id===snapshot.key });
+                if(typeof cartItemLocalStorage!=='undefined'){
+                    //add key to product
+                    let productWithKey = Object.assign({}, product, {
+                        key: snapshot.key,
+                        quantity: cartItemLocalStorage.quantity,
+                        total: cartItemLocalStorage.total
+                    });
+                    //push product to list of product
+                    productList.push(productWithKey);
+                }
             });
         }).then(() => {
             //set loading

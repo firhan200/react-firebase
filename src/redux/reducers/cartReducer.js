@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, INIT_CART_FROM_LOCATSTORAGE } from '../actions/actionTypes';
+import { ADD_TO_CART, REMOVE_FROM_CART, INIT_CART_FROM_LOCATSTORAGE, UPDATE_CART_ITEM } from '../actions/actionTypes';
 import { CART_KEY } from '../../constants/userLocalStorageKeys';
 
 const getCartFromLocalStorage = () => {
@@ -38,16 +38,28 @@ export default (state = initialState, action) => {
                 }
             );
         case INIT_CART_FROM_LOCATSTORAGE:
-            console.log("from:");
-            console.log(state.items);
-            console.log("to:");
-            console.log(action.payload);
             return Object.assign(
                 {},
                 state,
                 {
                     items : action.payload,
                     lastInsertedItem: state.lastInsertedItem
+                }
+            );
+        case UPDATE_CART_ITEM:
+            return Object.assign(
+                {},
+                state,
+                {
+                    items: Object.assign(state.items).map(item => {
+                        let temp = Object.assign({}, item);
+                        if(temp.id===action.payload.id){
+                            temp = action.payload;
+                        }
+
+                        return temp;
+                    }),
+                    lastInsertedItem : state.lastInsertedItem
                 }
             );
         default:

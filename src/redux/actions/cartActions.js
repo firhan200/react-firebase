@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, INIT_CART_FROM_LOCATSTORAGE } from './actionTypes';
+import { ADD_TO_CART, REMOVE_FROM_CART, INIT_CART_FROM_LOCATSTORAGE, UPDATE_CART_ITEM } from './actionTypes';
 import { CART_KEY } from '../../constants/userLocalStorageKeys';
 import { toast } from 'react-toastify';
 
@@ -10,7 +10,8 @@ export const addToCart = (product, callBack) => dispatch => {
 
     let currentItem = {
         id : itemId,
-        quantity : 0
+        quantity : 0,
+        total : 0
     }
 
     if(cart!==null){
@@ -93,5 +94,32 @@ export const initCartItems = () => dispatch => {
             type: INIT_CART_FROM_LOCATSTORAGE,
             payload: cart.items
         });
+    }
+}
+
+export const updateCartItem = (content) => {
+    let cart = JSON.parse(localStorage.getItem(CART_KEY));
+
+    if(cart!==null){
+        //cart exist
+        //find itemId
+        let newCartItems = cart.items.map(item => {
+            if(item.id===content.id){
+                item = content;
+            }
+
+            return item;
+        });
+
+        //update cart
+        cart = { items: newCartItems }
+
+        //set to local storage
+        localStorage.setItem(CART_KEY , JSON.stringify(cart));
+    }
+
+    return {
+        type: UPDATE_CART_ITEM,
+        payload: content
     }
 }
