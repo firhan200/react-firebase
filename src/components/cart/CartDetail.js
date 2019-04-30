@@ -4,7 +4,7 @@ import CartProduct from './CartProduct';
 import firebase from 'firebase';
 import CurrencyFormat from 'react-currency-format';
 import { toast } from 'react-toastify';
-import { addDiscount } from '../../redux/actions/cartActions';
+import { addDiscount, removeDiscount } from '../../redux/actions/cartActions';
 
 const DISCOUNT = {
     id: 0,
@@ -19,7 +19,8 @@ class CartDetail extends Component{
         this.state = {
             products: [],
             loading: false,
-            discountCode: ''
+            discountCode: '',
+            checkoutAvailable: false
         };
 
         //bind func
@@ -90,16 +91,28 @@ class CartDetail extends Component{
         e.preventDefault();
 
         //fake discount redeem
+        console.log(this.props.cart.discounts);
         if(this.state.discountCode.toLowerCase()===DISCOUNT.name.toLowerCase()){
-            //add discount to redux
-            this.props.addDiscount(DISCOUNT, () => {
+            //check if discount already added
+            if(this.props.cart.discounts.filter(discount => { return discount.id===DISCOUNT.id }).length > 0){
+                //discount already added
                 //reset discount 
                 this.setState({ discountCode: '' }, () => {
-                    toast.success(DISCOUNT.name+" Successfully Added!", {
+                    toast.warning(DISCOUNT.name+" Arleady Added!", {
                         position: toast.POSITION.BOTTOM_RIGHT
                     });
                 });
-            });
+            }else{
+                //add discount to redux
+                this.props.addDiscount(DISCOUNT, () => {
+                    //reset discount 
+                    this.setState({ discountCode: '' }, () => {
+                        toast.success(DISCOUNT.name+" Successfully Added!", {
+                            position: toast.POSITION.BOTTOM_RIGHT
+                        });
+                    });
+                });
+            }
         }else{
             //discount not found
             toast.error("Discount Code Not Found!", {
@@ -119,12 +132,14 @@ class CartDetail extends Component{
                         <div>
                             <h5>Discounts</h5>
                             {this.props.cart.discounts.map(discount => (
-                                <div className="row">
+                                <div key={discount.id} className="row">
                                     <div className="col-sm-12" align="right">
                                         <b>{ discount.name }</b><br/>
                                         <CurrencyFormat value={ discount.total } displayType={'text'} thousandSeparator={true} prefix={'Rp. '}/>
                                         <br/>
-                                        <a href="#!">remove <i className="fa fa-trash"/></a>
+                                        <a href="#!" onClick={(e) => {
+                                            this.props.removeDiscount(discount, () => {});
+                                        }}>remove <i className="fa fa-trash"/></a>
                                         <hr/>
                                     </div>
                                 </div>
@@ -192,6 +207,13 @@ class CartDetail extends Component{
 
         const Loading = (<div align="center">Loading cart...</div>);
 
+        {/* is checkout available */}
+        const RenderCheckout = (
+            <div>
+                { totalPrice > 0 ? (<a href="#" className="btn btn-warning">Checkout</a>) : "" }
+            </div>
+        );
+
         return(
             <div>
                 <h4>My Cart</h4>
@@ -210,7 +232,7 @@ class CartDetail extends Component{
                                 </div>
                             </div>
                             {RenderTotalPrice}
-                            <a href="#" className="btn btn-warning">Checkout</a>
+                            {RenderCheckout}
                         </div>
                     ) : 
                     ""
@@ -225,5 +247,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-    addDiscount
+    addDiscount,
+    removeDiscount
 })(CartDetail);

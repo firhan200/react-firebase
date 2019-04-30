@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, INIT_CART_FROM_LOCATSTORAGE, UPDATE_CART_ITEM, ADD_DISCOUNT } from '../actions/actionTypes';
+import { ADD_TO_CART, REMOVE_FROM_CART, INIT_CART_FROM_LOCATSTORAGE, UPDATE_CART_ITEM, ADD_DISCOUNT, REMOVE_DISCOUNT } from '../actions/actionTypes';
 import { CART_KEY } from '../../constants/userLocalStorageKeys';
 
 let cartItems = [];
@@ -30,7 +30,7 @@ getCartFromLocalStorage();
 
 const initialState = {
     items: cartItems,
-    discounts: [discounts],
+    discounts: discounts,
     lastInsertedItem : {}
 };
 
@@ -83,6 +83,15 @@ export default (state = initialState, action) => {
                 state,
                 {
                     discounts: [action.payload]
+                }
+            );
+        case REMOVE_DISCOUNT:
+        console.log(state.discounts);
+            return Object.assign(
+                {},
+                state,
+                {
+                    discounts: Object.assign([], state.discounts).filter(discount => { return discount.id!==action.payload.id })
                 }
             );
         default:
