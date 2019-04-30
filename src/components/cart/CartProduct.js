@@ -24,7 +24,7 @@ class CartProduct extends Component{
     }
 
     decreaseQuantity = () => {
-        if(this.state.quantity > 1){
+        if(this.props.product.quantity > 1){
             let newProductState = {
                 id: this.props.product.key,
                 quantity: (this.props.product.quantity - 1),

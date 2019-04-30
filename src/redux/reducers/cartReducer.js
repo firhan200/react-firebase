@@ -1,19 +1,36 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, INIT_CART_FROM_LOCATSTORAGE, UPDATE_CART_ITEM } from '../actions/actionTypes';
+import { ADD_TO_CART, REMOVE_FROM_CART, INIT_CART_FROM_LOCATSTORAGE, UPDATE_CART_ITEM, ADD_DISCOUNT } from '../actions/actionTypes';
 import { CART_KEY } from '../../constants/userLocalStorageKeys';
+
+let cartItems = [];
+let discounts = [];
 
 const getCartFromLocalStorage = () => {
     let cart = JSON.parse(localStorage.getItem(CART_KEY))
     if(cart!==null){
-        cart = cart.items;
+        if(typeof cart.items !== 'undefined'){
+            cartItems = cart.items;
+        }else{
+            cartItems = [];
+        }
+        
+        if(typeof cart.discounts !== 'undefined'){
+            discounts = cart.discounts;
+        }else{
+            discounts = [];
+        }
     }else{
-        cart = [];
+        cartItems = [];
+        discounts = [];
     }
 
-    return cart;
+    return true;
 }
 
+getCartFromLocalStorage();
+
 const initialState = {
-    items: getCartFromLocalStorage(),
+    items: cartItems,
+    discounts: [discounts],
     lastInsertedItem : {}
 };
 
@@ -42,8 +59,7 @@ export default (state = initialState, action) => {
                 {},
                 state,
                 {
-                    items : action.payload,
-                    lastInsertedItem: state.lastInsertedItem
+                    items : action.payload
                 }
             );
         case UPDATE_CART_ITEM:
@@ -58,8 +74,15 @@ export default (state = initialState, action) => {
                         }
 
                         return temp;
-                    }),
-                    lastInsertedItem : state.lastInsertedItem
+                    })
+                }
+            );
+        case ADD_DISCOUNT:
+            return Object.assign(
+                {},
+                state,
+                {
+                    discounts: [action.payload]
                 }
             );
         default:

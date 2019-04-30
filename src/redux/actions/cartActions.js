@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, INIT_CART_FROM_LOCATSTORAGE, UPDATE_CART_ITEM } from './actionTypes';
+import { ADD_TO_CART, REMOVE_FROM_CART, INIT_CART_FROM_LOCATSTORAGE, UPDATE_CART_ITEM, ADD_DISCOUNT } from './actionTypes';
 import { CART_KEY } from '../../constants/userLocalStorageKeys';
 import { toast } from 'react-toastify';
 
@@ -120,6 +120,38 @@ export const updateCartItem = (content) => {
 
     return {
         type: UPDATE_CART_ITEM,
+        payload: content
+    }
+}
+
+/*
+    content = {
+        id: 0,
+        name: CASHBACK
+        total: 100000
+    }
+*/
+export const addDiscount = (content, callBack) => {
+    let cart = JSON.parse(localStorage.getItem(CART_KEY));
+
+    if(cart!=null){
+        //1 discount at 1 time
+        let newCart = Object.assign(
+            {},
+            cart,
+            {
+                discounts: [content]
+            }
+        )
+
+        //set to local storage
+        localStorage.setItem(CART_KEY , JSON.stringify(newCart));
+    }
+
+    callBack();
+
+    return {
+        type: ADD_DISCOUNT,
         payload: content
     }
 }

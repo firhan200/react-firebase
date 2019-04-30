@@ -215,3 +215,8 @@ form > .title{
   color:#fff;
   background-color: #00346b;
 }
+
+.cart-total-price{
+  text-align: right;
+  margin-bottom:10px;
+}
