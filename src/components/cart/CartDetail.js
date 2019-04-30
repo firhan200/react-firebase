@@ -180,7 +180,7 @@ class CartDetail extends Component{
                     totalPrice = totalPrice - discount.total;
                 })
             }
-            Total Cost: <CurrencyFormat value={ totalPrice } displayType={'text'} thousandSeparator={true} prefix={'Rp. '}/>
+            Total Cost: <CurrencyFormat value={ totalPrice < 0 ? 0 : totalPrice } displayType={'text'} thousandSeparator={true} prefix={'Rp. '}/>
         </div>); 
 
         const RenderDiscount = (

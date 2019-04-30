@@ -68,8 +68,9 @@ export const removeFromCart = item => {
             isRemoved = true;
         }
 
-        cart = { items: newCartItems }
+        cart.items = newCartItems;
 
+        //set to local storage
         localStorage.setItem(CART_KEY , JSON.stringify(cart));
     }
 
@@ -112,7 +113,7 @@ export const updateCartItem = (content) => {
         });
 
         //update cart
-        cart = { items: newCartItems }
+        cart.items = newCartItems;
 
         //set to local storage
         localStorage.setItem(CART_KEY , JSON.stringify(cart));

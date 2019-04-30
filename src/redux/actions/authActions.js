@@ -12,7 +12,7 @@ export const login = (content, callBack) => {
     //return
     return {
         type: LOGIN,
-        payload: user
+        payload: JSON.parse(user)
     }
 }
 

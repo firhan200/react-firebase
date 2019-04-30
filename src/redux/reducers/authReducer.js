@@ -1,19 +1,25 @@
 import { IS_AUTHENTICATED, LOGIN, LOGOUT } from '../actions/actionTypes';
 import { USER_KEY } from '../../constants/userLocalStorageKeys';
 
+let isAuth = false;
+let userObj = {};
+
 const authenticatingFromLocalStorage = () => {
     let user = JSON.parse(localStorage.getItem(USER_KEY));
-    let isAuthenticated = false;
     if(user!==null){
-        isAuthenticated = true;
+        userObj = user;
+        isAuth = true;
+    }else{
+        userObj = {};
+        isAuth = false;
     }
-
-    return isAuthenticated;
 }
 
+authenticatingFromLocalStorage();
+
 const initialState = {
-    isAuthenticated : authenticatingFromLocalStorage(),
-    user: {}
+    isAuthenticated : isAuth,
+    user: userObj
 }
 
 export default (state = initialState, action) => {
