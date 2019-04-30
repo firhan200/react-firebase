@@ -39,7 +39,9 @@ class Register extends Component{
             var user = result.user;
 
             //call redux
-            this.props.login(user);
+            this.props.login(user, () => {
+                this.props.history.push('/');
+            });
         }).catch((error) => {
             // Handle Errors here.
             var errorCode = error.code;

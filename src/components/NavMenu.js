@@ -12,8 +12,6 @@ class NavMenu extends React.Component{
     }
 
     render(){
-        console.log(this.props.cart);
-
         const cartDisplay = 
                 <li className="nav-item active">
                     <Link to="/cart" className="nav-link"><i className="fa fa-shopping-cart"></i>&nbsp;
